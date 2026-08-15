@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<title>資産運用シミュレーター</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+
+<!-- ホーム ///////////////////////////////////////////////////////////////////////////////////// -->
+<section id="home">
+  <h1>資産運用シミュレーター</h1>
+  <p>
+  このシミュレーターでは、投資の体験を通してお金の増え方や減り方を学ぶことができます。<br>
+  自分で設定を変えながら、どのように資産が変化するのかを確認してみましょう。
+  </p>
+  <p class="warning">※どの画面でも再読み込みはしないでください。</p>
+
+  <div class="flow-box">
+    <h3 class="flow-title">学習の流れ</h3>
+    <ul class="flow-list">
+      
+      <li>①講義</li>
+      <li>②シミュレーター（1回目）</li>
+      <li>③シミュレーター（2回目）</li>
+      <li>　└ 判断理由を入力</li>
+      <li>　└ 振り返りを入力</li>
+      <li>④評価・フィードバック</li>
+      <li>⑤事後テスト</li>
+    </ul>
+  </div>
+
+  <button class="btn_1" onclick="showScreen('lecture')">スタート</button>
+</section>
+
+
+<!-- 講義 ///////////////////////////////////////////////////////////////////////////////////// -->
+<section id="lecture">
+  <h2>講義</h2>
+  <p>動画を再生して基礎知識を見つけましょう。<br>
+  視聴後はシミュレーターへ進んでください。</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/Ys7-6_t7OEQ?si=iKpjRQzbzA6_dUIY&amp;start=76" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <button class="btn_1" onclick="showScreen('simulator')">シミュレーターへ</button>
+</section>
+
+
+<!-- シミュレーター ///////////////////////////////////////////////////////////////////////////////////// -->
+<section id="simulator">
+  <div class="container">
+
+  <!-- 左側 ///////////////////////////////////////////////////////////////////////////////////// -->
+    <div class="left">
+
+    <div id="firstGuide" class="guide-box">
+      <h3 id="simTitle">シミュレーター（1回目）</h3>
+      <p>※1回目は全員同じ条件で実施します。<br>
+        ①まずは、<button onclick="setPattern1()">パターン1を設定</button>してシミュレーションを行ってください。<br>
+        ②実行後、<button onclick="setPattern2()">パターン2を設定</button>してシミュレーションを行ってください。</p>
+
+    </div>
+
+      <h3>設定</h3>
+      初期資金（万円）：<input id="initial" type="number" min="0" value="100"><br>
+      毎月積立（万円）：<input id="monthly" type="number" min="0" value="1"><br>
+      投資期間（年）　：<input id="years" type="number" min="0" value="10"><br>
+
+      <h3 class="ratio-title">割合</h3>
+      <h4 id="totalDisplay">合計：100%</h4>
+
+      <div class="slider-group">
+        <label>株式：
+          <span id="stockValue">50</span>%
+        </label>
+        <input type="range" id="stock" min="0" max="100" value="50">
+      </div>
+
+      <div class="slider-group">
+        <label>投資信託：
+          <span id="fundValue">30</span>%
+        </label>
+        <input type="range" id="fund" min="0" max="100" value="30">
+      </div>
+
+      <div class="slider-group">
+        <label>預金：
+          <span id="cashValue">20</span>%
+        </label>
+        <input type="range" id="cash" min="0" max="100" value="20">
+      </div>
+
+      <div class="assetInfo">
+        <h3>各商品の特徴</h3>
+
+        <p>株式　　：期待利回り 7%（リスク：高）</p>
+
+        <p>投資信託：期待利回り 4%（リスク：中）</p>
+
+        <p>預金　　：期待利回り 1%（リスク：低）</p>
+      </div>
+
+      <div id="sampleBox" class="sample-box" style="display:none;">
+        <h3>設定例（参考）</h3>
+        <ul class="style-info">
+          <li>
+            <strong>安定型　　：</strong>
+            リスクを抑えて安定重視
+          </li>
+
+          <li>
+            <strong>バランス型：</strong>
+            安定と成長のバランスを取る
+          </li>
+
+          <li>
+            <strong>積極型　　：</strong>
+            リスクを取って高い利益を狙う
+          </li>
+        </ul>
+        <table class="sample-table">
+          <tr>
+            <th>スタイル</th>
+            <th>初期資金</th>
+            <th>毎月積立</th>
+            <th>期間</th>
+            <th>株式</th>
+            <th>投資信託</th>
+            <th>預金</th>
+          </tr>
+
+          <tr>
+            <td>安定型</td>
+            <td>100万円</td>
+            <td>1万円</td>
+            <td>10年</td>
+            <td>20%</td>
+            <td>30%</td>
+            <td>50%</td>
+          </tr>
+
+          <tr>
+            <td>バランス型</td>
+            <td>100万円</td>
+            <td>2万円</td>
+            <td>15年</td>
+            <td>50%</td>
+            <td>30%</td>
+            <td>20%</td>
+          </tr>
+
+          <tr>
+            <td>積極型</td>
+            <td>100万円</td>
+            <td>3万円</td>
+            <td>20年</td>
+            <td>80%</td>
+            <td>15%</td>
+            <td>5%</td>
+          </tr>
+
+        </table>
+
+        <p class="sample-note">
+          ※あくまで参考例です。自由に変更してシミュレーションできます。
+        </p>
+      </div>
+
+      <div class="button-area">
+        <button class="btn_1" id="reasonBtn" onclick="goReason()" style="display:none;"> 判断理由へ </button>
+        <button class="btn_run" id="runBtn" onclick="runSimulation()">実行</button>
+        <button class="btn_1" id="nextBtn" onclick="nextButton()" disabled>次へ</button>
+        <button class="btn_2" onclick="showScreen('lecture')">戻る</button>
+      </div>
+    </div>
+
+  <!-- 右側 ///////////////////////////////////////////////////////////////////////////////////// -->
+    <div class="right">
+
+      <!-- パターン1表 -->
+      <div id="pattern1Box">
+
+        <h3>パターン1</h3>
+        <table class="sample-table">
+          <tr>
+            <th>項目</th>
+            <th>設定</th>
+          </tr>
+          <tr>
+            <td>初期資金</td>
+            <td>100万円</td>
+          </tr>
+          <tr>
+            <td>毎月積立</td>
+            <td>3万円</td>
+          </tr>
+          <tr>
+            <td>投資期間</td>
+            <td>30年</td>
+          </tr>
+          <tr>
+            <td>株式</td>
+            <td>90%</td>
+          </tr>
+          <tr>
+            <td>投資信託</td>
+            <td>10%</td>
+          </tr>
+          <tr>
+            <td>預金</td>
+            <td>0%</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- パターン1結果 -->
+      <div id="chartArea" style="display:none;">
+        <h3>グラフ</h3>
+        <canvas id="chart1"></canvas>
+        <p id="eventMessage1"></p>
+      </div>
+
+      <!-- パターン2表 -->
+      <div id="pattern2Box">
+
+        <h3>パターン2</h3>
+        <table class="sample-table">
+          <tr>
+            <th>項目</th>
+            <th>設定</th>
+          </tr>
+          <tr>
+            <td>初期資金</td>
+            <td>100万円</td>
+          </tr>
+          <tr>
+            <td>毎月積立</td>
+            <td>3万円</td>
+          </tr>
+          <tr>
+            <td>投資期間</td>
+            <td>30年</td>
+          </tr>
+          <tr>
+            <td>株式</td>
+            <td>0%</td>
+          </tr>
+          <tr>
+            <td>投資信託</td>
+            <td>10%</td>
+          </tr>
+          <tr>
+            <td>預金</td>
+            <td>90%</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- パターン2結果 -->
+      <div id="chartArea2" style="display:none;">
+        <h3>グラフ</h3>
+        <canvas id="chart2"></canvas>
+        <p id="eventMessage2"></p>
+      </div>
+
+      <!-- 判断理由 ///////////////////////////////////////////////////////////////////////////////////// -->
+      <div id="reasonArea">
+        <div class="reason-header">
+          <h3>判断理由</h3>
+            <p class="reason-warning">
+              ※各項目は50～500文字で入力してください。
+            </p>
+        </div>
+
+        <div class="reason-grid">
+          <div class="decision-item">
+            <p>なぜその設定にしましたか？（初期資金，毎月積立，投資期間）</p>
+            <textarea id="reason1" maxlength="500"></textarea>
+            <div class="char-count" id="count1">
+              0 / 500文字
+            </div>
+          </div>
+
+          <div class="decision-item">
+            <p>資産が減る可能性について、どのように考えましたか？</p>
+            <textarea id="reason2" maxlength="500"></textarea>
+            <div class="char-count" id="count2">
+              0 / 500文字
+            </div>
+          </div>
+
+          <div class="decision-item">
+            <p>どのような事を重視して、その割合を設定しましたか？</p>
+            <textarea id="reason3" maxlength="500"></textarea>
+            <div class="char-count" id="count3">
+              0 / 500文字
+            </div>
+          </div>
+
+          <div class="decision-item">
+            <p>あなたの考えと、設定した割合は一致していますか？</p>
+            <textarea id="reason4" maxlength="500"></textarea>
+            <div class="char-count" id="count4">
+              0 / 500文字
+            </div>
+          </div>
+
+          <div class="decision-item">
+            <p>その設定で、資産はどのように変化すると予想しますか？</p>
+            <textarea id="reason5" maxlength="500"></textarea>
+            <div class="char-count" id="count5">
+              0 / 500文字
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 振り返り ///////////////////////////////////////////////////////////////////////////////////// -->
+      <div id="reflectionArea" style="display:none;">
+
+        <div class="reason-header">
+          <h3>振り返り</h3>
+          <p class="reason-warning">
+            ※各項目は50～500文字で入力してください。
+          </p>
+        </div>
+
+        <div class="reflection-grid">
+
+          <div class="reflection-item">
+            <p>シミュレーション結果は予想と一致しましたか。その理由も書いてください。</p>
+            <textarea id="reflection1" maxlength="500"></textarea>
+            <div class="char-count" id="reflectionCount1">
+              0 / 500文字
+            </div>
+          </div>
+
+          <div class="reflection-item">
+            <p>結果を見て、次回設定を変更するとしたらどのように変更しますか。</p>
+            <textarea id="reflection2" maxlength="500"></textarea>
+            <div class="char-count" id="reflectionCount2">
+              0 / 500文字
+            </div>
+          </div>
+
+          <div class="reflection-item">
+            <p>シミュレーション結果を見て、資産運用について新たに気づいたことは何ですか？</p>
+            <textarea id="reflection3" maxlength="500"></textarea>
+            <div class="char-count" id="reflectionCount3">
+              0 / 500文字
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+
+<!-- 評価 ///////////////////////////////////////////////////////////////////////////////////// -->
+<section id="feedback">
+  <h2>評価</h2>
+  <p>（評価）</p>
+  <button class="btn_1" onclick="showScreen('posttest')">事後テストへ</button>
+</section>
+
+
+<!-- 事後テスト ///////////////////////////////////////////////////////////////////////////////////// -->
+<section id="posttest">
+  <h2>事後テスト</h2>
+    <h4>以下の15問について、正しいと思う場合は「○」、誤っていると思う場合は「×」を選択してください。<h4>
+
+    <!-- Q1 -->
+    <div class="test-question">
+      <p>Q1. 株式の割合を高めた資産配分は、株式市場の価格変動によって資産全体の評価額が変動する影響を受けやすくなる。</p>
+      <button class="answer-btn maru" onclick="answerPosttest(1, true)">○</button>
+      <button class="answer-btn batsu" onclick="answerPosttest(1, false)">×</button>
+    </div>
+
+    <!-- Q2 -->
+  <div class="test-question">
+    <p>Q2. 投資信託は複数の資産に投資する商品であるため、どの投資信託を選んでもリスクの大きさはほぼ同じである。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(2, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(2, false)">×</button>
+  </div>
+
+  <!-- Q3 -->
+  <div class="test-question">
+    <p>Q3. 預金は価格変動が比較的小さいため、預金の割合を高めるほど資産全体の値動きは抑えやすくなる一方、運用による収益も小さくなりやすい。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(3, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(3, false)">×</button>
+  </div>
+
+  <!-- Q4 -->
+  <div class="test-question">
+    <p>Q4. 株式と預金を組み合わせて保有する場合、株式の価格が下落しても預金部分の価値は株式と同じ割合で変動するため、分散投資による影響の軽減は期待できない。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(4, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(4, false)">×</button>
+  </div>
+
+  <!-- Q5 -->
+  <div class="test-question">
+    <p>Q5. 投資では、高いリターンが期待できる資産ほど、一般的にリスクも高くなる傾向がある。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(5, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(5, false)">×</button>
+  </div>
+
+  <!-- Q6 -->
+  <div class="test-question">
+    <p>Q6. 株式の割合を高くすると、一般的に資産全体の価格変動も大きくなりやすい。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(6, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(6, false)">×</button>
+  </div>
+
+  <!-- Q7 -->
+  <div class="test-question">
+    <p>Q7. 異なる値動きをする資産を組み合わせることで、特定の資産の価格変動が資産全体に与える影響を抑えられる場合がある。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(7, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(7, false)">×</button>
+  </div>
+
+  <!-- Q8 -->
+  <div class="test-question">
+    <p>Q8. 「リスクが高い資産」とは、期待される収益率が低い資産を指し、将来の収益率の変動幅とは関係しない。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(8, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(8, false)">×</button>
+  </div>
+
+  <!-- Q9 -->
+  <div class="test-question">
+    <p>Q9. 同じ初期資金と毎月の積立額であっても、株式・投資信託・預金の配分が異なれば、将来の資産額やその変動の仕方が異なる可能性がある。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(9, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(9, false)">×</button>
+  </div>
+
+  <!-- Q10 -->
+  <div class="test-question">
+    <p>Q10. 投資期間を長く設定すれば、短期間で発生した価格変動による損失が長期的には必ず解消されるため、資産配分について検討する必要性は低くなる。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(10, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(10, false)">×</button>
+  </div>
+
+  <!-- Q11 -->
+  <div class="test-question">
+    <p>Q11. 毎月一定額を積み立てる投資では、価格が高いときに多く購入し、価格が低いときに少なく購入することで、価格変動の影響を抑える。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(11, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(11, false)">×</button>
+  </div>
+
+  <!-- Q12 -->
+  <div class="test-question">
+    <p>Q12. 複数の金融商品を保有していれば、それぞれの資産の値動きが同じであっても、分散投資によるリスク低減効果は同じように得られる。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(12, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(12, false)">×</button>
+  </div>
+
+  <!-- Q13 -->
+  <div class="test-question">
+    <p>Q13. 株式の割合を下げて預金の割合を高めた場合、資産全体の価格変動は抑えやすくなるが、株式の割合を高めた場合と比べて高い収益を得る可能性も小さくなりやすい。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(13, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(13, false)">×</button>
+  </div>
+
+  <!-- Q14 -->
+  <div class="test-question">
+    <p>Q14. 資産運用における「分散」は、複数の金融商品を保有することだけを意味し、それぞれの資産の値動きの違いを考慮する必要はない。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(14, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(14, false)">×</button>
+  </div>
+
+  <!-- Q15 -->
+  <div class="test-question">
+    <p>Q15. 長期・積立・分散を組み合わせた資産運用では、価格変動そのものをなくすのではなく、価格変動による影響を抑えながら運用することを目指す考え方がある。</p>
+    <button class="answer-btn maru" onclick="answerPosttest(15, true)">○</button>
+    <button class="answer-btn batsu" onclick="answerPosttest(15, false)">×</button>
+  </div>
+
+  <button class="btn_1" onclick="finishPosttest()">回答を確定する</button>
+</section>
+
+
+<!-- 最終結果 ///////////////////////////////////////////////////////////////////////////////////// -->
+<section id="posttestresult">
+  <h2>事後テスト結果</h2>
+
+  <!-- 合計点 -->
+  <div id="finalResult"></div>
+
+  <!-- 問題ごとの結果 -->
+  <div id="answerReview"></div>
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>
